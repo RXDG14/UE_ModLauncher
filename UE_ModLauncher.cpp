@@ -226,13 +226,24 @@ void OnLaunchButtonClicked(HWND hWnd)
     
     SetWindowTextW(hStatusText, L"Status : Waiting for game to start");
 
-    // Wait for Shipping.exe
-    std::string shipping = GetShippingExeName();
+    //// Wait for Shipping.exe
+    //std::string shipping = GetShippingExeName();
+    //while (!processID)
+    //{
+    //    processID = GetProcessID(shipping.c_str());
+    //    Sleep(500);
+    //}
+
+    // Wait for the exact .exe the user selected
+    char exeName[MAX_PATH];
+    WideCharToMultiByte(CP_ACP, 0, PathFindFileNameW(gameFilePath), -1, exeName, MAX_PATH, nullptr, nullptr);
+
     while (!processID)
     {
-        processID = GetProcessID(shipping.c_str());
+        processID = GetProcessID(exeName);
         Sleep(500);
     }
+
 
     SetWindowTextW(hStatusText, L"Status : Injecting mod");
 
